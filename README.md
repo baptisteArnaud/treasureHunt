@@ -1,7 +1,7 @@
 # Treasure Hunt
 Ethereum truffle app that allows companies to organize contests with enigmas
 
-![Home page](https://www.noelshack.com/2017-43-5-1509113932-treasurehuntpic.png)
+![Home page](https://user-images.githubusercontent.com/16015833/32108747-f1c33598-bb32-11e7-9a8f-5989561bdff2.PNG)
 
 # Getting Started
 
