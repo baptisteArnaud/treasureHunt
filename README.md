@@ -1,6 +1,8 @@
 # Treasure Hunt
 Ethereum truffle app that allows companies to organize contests with enigmas
 
+![Home page](https://www.noelshack.com/2017-43-5-1509113932-treasurehuntpic.png)
+
 # Getting Started
 
 - Install Truffle : http://truffleframework.com/docs/getting_started/installation
