@@ -5,15 +5,26 @@
 
 body{
 	background: url('../images/bg.jpg') no-repeat center;
+	font-family: Helvetica,sans-serif;
 	background-size: cover;
 	height: 100vh;
 	color: white;
 	display: flex;
 	margin: 0;
 	padding: 0;
+	flex-direction: column;
 }
 
 .menu{
+	display: flex;
+	flex-direction: column;
+	width: 500px;
+	justify-content: center;
+	margin: auto;
+	padding-right: 15px;
+}
+
+.menu-item{
 	display: flex;
 	flex-direction: column;
 	width: 500px;
@@ -50,8 +61,52 @@ h2{
 	border-radius: 20px;
 	text-decoration: none;
 	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+form{
+	display: flex;
+	flex-direction: column;
+}
+
+.go-to-index{
+	text-decoration: none;
+	color: white;
+	font-family: saota;
+	font-size: 30px;
+	margin-left: 15px;
+	margin-top: 15px;
+}
+
+form{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+input[type="text"]{
+	width: 100%;
+	margin-bottom: 20px;
+	padding: 15px;
+	border-radius: 5px;
+}
+
+button{
+	width: 150px;
+	height: 40px;
+	background-color: brown;
+	border-radius: 20px;
+	text-decoration: none;
+	color: white;
 	font-family: Helvetica,sans-serif;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border: none;
+}
+
+.input-container{
+	width: 100%;
 }

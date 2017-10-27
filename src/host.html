@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Treasure Hunt</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <a href="index.html" class="go-to-index">Treasure Hunt</a>
+    <div class="menu-item">
+      <h1>Deploy a new hunt</h1>
+      <form>
+        <div class="input-container">
+          <label>Your name:</label>
+          <input type="text" name="enigme">
+        </div>
+        <div class="input-container">
+          <label>Your enigma:</label>
+          <input type="text" name="enigme">
+        </div>
+        <div class="input-container">
+          <label>The expected answer:</label>
+          <input type="text" name="enigme">
+        </div>
+        <div class="input-container">
+          <label>The location of the treasure:</label>
+          <input type="text" name="géoloc" placeholder="40.2562,2.12155">
+        </div>
+        <button>Deploy</button>
+      </form>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

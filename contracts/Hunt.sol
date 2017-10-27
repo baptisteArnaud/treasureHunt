@@ -3,12 +3,14 @@ pragma solidity ^0.4.4;
 contract Hunt{
     
     address public winner;
+    string public host;
     string public question;
     string answer;
     bool public isAnswered;
     string pos;
     
-    function Hunt(string _question, string _answer, string _pos){
+    function Hunt(string _host, string _question, string _answer, string _pos){
+        host = _host;
         question = _question;
         answer = _answer;
         pos = _pos;
