@@ -1,7 +1,7 @@
 {
-  "name": "pet-shop",
+  "name": "tresureHunt",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ethereum truffle app that allows companies to organize contests with enigmas",
   "main": "truffle.js",
   "directories": {
     "test": "test"
