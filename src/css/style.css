@@ -1,0 +1,57 @@
+@font-face {
+    font-family: saota;
+    src: url('../fonts/saota.ttf');
+}
+
+body{
+	background: url('../images/bg.jpg') no-repeat center;
+	background-size: cover;
+	height: 100vh;
+	color: white;
+	display: flex;
+	margin: 0;
+	padding: 0;
+}
+
+.menu{
+	display: flex;
+	flex-direction: column;
+	width: 500px;
+	justify-content: center;
+	margin: auto;
+	padding-right: 15px;
+}
+
+h1, h2{
+	font-family: saota;
+	margin: 0;
+	padding: 0;
+	
+	text-align: center;
+}
+
+h1{
+	font-size: 60px;
+}
+h2{
+	margin-bottom: 40px;
+	font-size: 30px;
+}
+
+.choose-side{
+	display: flex;
+	justify-content: space-around;
+}
+
+.choose-side a{
+	width: 150px;
+	height: 40px;
+	background-color: brown;
+	border-radius: 20px;
+	text-decoration: none;
+	color: white;
+	font-family: Helvetica,sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
