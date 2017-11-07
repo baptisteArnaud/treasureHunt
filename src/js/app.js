@@ -43,6 +43,7 @@ App = {
 
   bindEvents: function() {
     $(document).on('click', '.btn-deploy', App.addHunt);
+    $(document).on('click', App.getHunts);
   },
 
   addHunt: function(e) {
@@ -60,17 +61,33 @@ App = {
       return HuntsFactoryInstance.AddHunt(name, enigma, answer, location);
     }).then(function() {
       window.location.replace("index.html");
-    })
+    });
   },
 
-  handleAdopt: function() {
-    event.preventDefault();
+  getHunts: function(nb_hunts, hunt) {
 
-    var petId = parseInt($(event.target).data('id'));
+    if(window.location.pathname == "/hunts.html"){
 
-    /*
-     * Replace me...
-     */
+      var HuntsFactoryInstance;
+      App.contracts.HuntsFactory.deployed().then(function(instance) {
+        HuntsFactoryInstance = instance;
+        return HuntsFactoryInstance.getHuntsLength.call();
+      }).then(function(nb_hunts){
+        for(i=0; i<nb_hunts; i++){
+          App.contracts.HuntsFactory.deployed().then(function(instance) {
+
+            HuntsFactoryInstance = instance;
+            return HuntsFactoryInstance.getHunt(i);
+
+          }).then(function(hunt){
+            alert(hunt);
+          })
+        }
+      })
+
+      
+
+    }
   }
 
 };

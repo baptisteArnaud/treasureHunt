@@ -110,3 +110,26 @@ button{
 .input-container{
 	width: 100%;
 }
+
+ol li div{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+ol li a{
+	text-decoration: none;
+	height: 40px;
+	background-color: brown;
+	border-radius: 20px;
+	text-decoration: none;
+	color: white;
+	font-family: Helvetica,sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: none;
+	padding-left: 10px;
+	padding-right: 10px;
+
+}
