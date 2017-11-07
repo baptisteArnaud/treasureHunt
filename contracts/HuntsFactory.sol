@@ -4,13 +4,13 @@ contract HuntFactory {
     Hunt[] hunts;
     
     function AddHunt(string _host, string _question, string _answer, string _pos){
-        hunts.push(new Competition(_host, _question, _answer, _pos));
+        hunts.push(new Hunt(_host, _question, _answer, _pos));
     }
     
-    function getCompetition(uint _index) constant returns(address){
-        return competitions[_index];
+    function getHunt(uint _index) constant returns(address){
+        return hunts[_index];
     }
-    
+
     function getHuntsLength() returns(uint){
         return hunts.length;
     }    
