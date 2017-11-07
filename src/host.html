@@ -13,25 +13,25 @@
       <form>
         <div class="input-container">
           <label>Your name:</label>
-          <input type="text" name="enigme">
+          <input type="text" name="name" id="name">
         </div>
         <div class="input-container">
           <label>Your enigma:</label>
-          <input type="text" name="enigme">
+          <input type="text" name="enigma" id="enigma">
         </div>
         <div class="input-container">
           <label>The expected answer:</label>
-          <input type="text" name="enigme">
+          <input type="text" name="answer" id="answer">
         </div>
         <div class="input-container">
           <label>The location of the treasure:</label>
-          <input type="text" name="géoloc" placeholder="40.2562,2.12155">
+          <input type="text" name="location" placeholder="40.2562,2.12155" id="location">
         </div>
-        <button>Deploy</button>
+        <button class="btn-deploy">Deploy</button>
       </form>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/web3.min.js"></script>
     <script src="js/truffle-contract.js"></script>

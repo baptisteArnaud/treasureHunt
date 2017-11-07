@@ -15,33 +15,52 @@ App = {
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
     }
     web3 = new Web3(App.web3Provider);
-    return App.initContract();
+    return App.initContracts();
   },
 
-  initContract: function() {
+  initContracts: function() {
+
+    $.getJSON('HuntsFactory.json', function(data) {
+      // Get the necessary contract artifact file and instantiate it with truffle-contract
+      var HuntsFactoryArtifact = data;
+      App.contracts.HuntsFactory = TruffleContract(HuntsFactoryArtifact);
+
+      // Set the provider for our contract
+      App.contracts.HuntsFactory.setProvider(App.web3Provider);
+    });
+
     $.getJSON('Hunt.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       var HuntArtifact = data;
-      App.contracts.Adoption = TruffleContract(HuntArtifact);
+      App.contracts.Hunt = TruffleContract(HuntArtifact);
 
       // Set the provider for our contract
-      App.contracts.Adoption.setProvider(App.web3Provider);
-
-      // Use our contract to retrieve and mark the adopted pets
-      return App.markAdopted();
+      App.contracts.Hunt.setProvider(App.web3Provider);
     });
 
     return App.bindEvents();
   },
 
   bindEvents: function() {
-    $(document).on('click', '.btn-adopt', App.handleAdopt);
+    $(document).on('click', '.btn-deploy', App.addHunt);
   },
 
-  markAdopted: function(adopters, account) {
-    /*
-     * Replace me...
-     */
+  addHunt: function(e) {
+    e.preventDefault();
+
+    var HuntsFactoryInstance;
+    var name = $("#name").val();
+    var enigma = $("#enigma").val();
+    var answer = $("#answer").val();
+    var location = $("#location").val();
+
+    App.contracts.HuntsFactory.deployed().then(function(instance) {
+      HuntsFactoryInstance = instance;
+
+      return HuntsFactoryInstance.AddHunt(name, enigma, answer, location);
+    }).then(function() {
+      window.location.replace("index.html");
+    })
   },
 
   handleAdopt: function() {

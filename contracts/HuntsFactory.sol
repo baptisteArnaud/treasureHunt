@@ -1,6 +1,6 @@
 pragma solidity ^0.4.2;
 import "./Hunt.sol";
-contract HuntFactory {
+contract HuntsFactory {
     Hunt[] hunts;
     
     function AddHunt(string _host, string _question, string _answer, string _pos){
