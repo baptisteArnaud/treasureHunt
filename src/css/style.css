@@ -27,7 +27,7 @@ body{
 .menu-item{
 	display: flex;
 	flex-direction: column;
-	width: 500px;
+	width: 600px;
 	justify-content: center;
 	margin: auto;
 	padding-right: 15px;

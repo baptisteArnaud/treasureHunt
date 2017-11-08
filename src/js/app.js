@@ -46,6 +46,7 @@ App = {
     $(document).on('click', '.btn-answer', App.answerHunt);
     $(document).ready(App.getHunts);
     $(document).ready(App.loadAnswer);
+    $(document).ready(App.loadMap);
   },
 
   addHunt: function(e) {
@@ -142,16 +143,30 @@ App = {
     e.preventDefault();
     var address = getUrlParameter('add');
     var answer = $("#answer").val();
+    var response;
     var contract = App.contracts.Hunt.at(address).then((contract) =>{
-      contract.answerQuestion(answer).then((response) => {
+      contract.answerQuestion.call(answer).then((response_) => {
+        response = response_
         if(response != "WRONG"){
-          console.log('GG');
+          contract.answerQuestion(answer).then(() => {
+            window.location.replace("winner.html?location=" + response);
+          });
         }else{
-          console.log('WRONNNNNNNG');
+          window.location.replace("looser.html");
         }
       });
     });
   },
+
+  loadMap: function(e){
+    setTimeout(function(){
+      if(window.location.pathname == "/winner.html"){
+        var location = getUrlParameter('location');
+        $(".the-map").attr("src", "https://www.google.com/maps/embed/v1/place?key=AIzaSyAAE1B-kRyhuB5GAyb8s12RDcequNV26-A&q=" + location);
+        $(".location-title").append(location);
+      }
+    },1);
+  }
 
 };
 
