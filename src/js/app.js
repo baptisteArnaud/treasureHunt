@@ -44,7 +44,8 @@ App = {
   bindEvents: function() {
     $(document).on('click', '.btn-deploy', App.addHunt);
     $(document).on('click', '.btn-answer', App.answerHunt);
-    $('.load-button').on('click', App.getHunts);
+    $(document).ready(App.getHunts);
+    $(document).ready(App.loadAnswer);
   },
 
   addHunt: function(e) {
@@ -67,50 +68,74 @@ App = {
 
   getHunts: function() {
 
-    if(window.location.pathname == "/hunts.html"){
-
-      var HuntsFactoryInstance;
-      var addresses;
-      var contracts;
-      var names;
-      var status;
-      App.contracts.HuntsFactory.deployed().then(function(instance) {
-        HuntsFactoryInstance = instance;
-        return HuntsFactoryInstance.getHuntsLength.call().then(nb_hunts => {
-          var instanceIndexes = Array();
-          for(i=0; i<nb_hunts; i++){
-            instanceIndexes.push(i);
-          }
-          var instancesPromises = instanceIndexes.map(index => HuntsFactoryInstance.getHunt(index));
-          return Promise.all(instancesPromises).then(addresses_ => {
-            addresses = addresses_;
-            var contractsPromises = addresses.map(address => App.contracts.Hunt.at(address));
-            return Promise.all(contractsPromises).then(contracts_ => {
-              contracts = contracts_;
-              var namesPromises = contracts.map(contracts => contracts.name.call());
-              return Promise.all(namesPromises).then(names_ => {
-                names = names_;
-                var statusPromises = contracts.map(contracts => contracts.isAnswered.call());
-                return Promise.all(statusPromises).then(status_ => {
-                  status = status_;
-                }).then(()=>{
-                  for(i=0; i<nb_hunts; i++){
-                    if(status[i] == false){
-                      status[i] = "Open"
-                      $(".hunts-list").append('<li><div><a href="answer.html?add=' + addresses[i] + '">' + names[i] + '</a><p>Status: ' + status[i] + '</p></div></li>');
-                    }else{
-                      status[i] = "Close"
-                      $(".hunts-list").append('<li><div><a href="#" class="disabled">' + names[i] + '</a><p>Status: ' + status[i] + '</p></div></li>');
+    //ridiculous timemout of 1ms to make sure contracts are initialized.
+    setTimeout(function(){
+      if(window.location.pathname == "/hunts.html"){
+        var HuntsFactoryInstance;
+        var addresses;
+        var contracts;
+        var names;
+        var status;
+        App.contracts.HuntsFactory.deployed().then(function(instance) {
+          HuntsFactoryInstance = instance;
+          return HuntsFactoryInstance.getHuntsLength.call().then(nb_hunts => {
+            var instanceIndexes = Array();
+            for(i=0; i<nb_hunts; i++){
+              instanceIndexes.push(i);
+            }
+            var instancesPromises = instanceIndexes.map(index => HuntsFactoryInstance.getHunt(index));
+            return Promise.all(instancesPromises).then(addresses_ => {
+              addresses = addresses_;
+              var contractsPromises = addresses.map(address => App.contracts.Hunt.at(address));
+              return Promise.all(contractsPromises).then(contracts_ => {
+                contracts = contracts_;
+                var namesPromises = contracts.map(contracts => contracts.name.call());
+                return Promise.all(namesPromises).then(names_ => {
+                  names = names_;
+                  var statusPromises = contracts.map(contracts => contracts.isAnswered.call());
+                  return Promise.all(statusPromises).then(status_ => {
+                    status = status_;
+                  }).then(()=>{
+                    for(i=0; i<nb_hunts; i++){
+                      if(status[i] == false){
+                        status[i] = "Open"
+                        $(".hunts-list").append('<li><div><a href="answer.html?add=' + addresses[i] + '">' + names[i] + '</a><p>Status: ' + status[i] + '</p></div></li>');
+                      }else{
+                        status[i] = "Close"
+                        $(".hunts-list").append('<li><div><a href="#" class="disabled">' + names[i] + '</a><p>Status: ' + status[i] + '</p></div></li>');
+                      }
                     }
-                  }
-                  $('.load-button').hide();
+                  });
                 });
               });
             });
           });
         });
-      });
-    }
+      }
+    } , 1);
+    
+  },
+
+  loadAnswer: function(){
+    //ridiculous timemout of 1ms to make sure contracts are initialized.
+    setTimeout(function(){
+      if(window.location.pathname == "/answer.html"){
+        var address = getUrlParameter('add');
+        var name;
+        var question;
+        var contract = App.contracts.Hunt.at(address).then((contract) =>{
+          contract.name.call().then((name_)=>{
+            name = name_;
+            contract.question.call().then((question_)=>{
+              question = question_;
+            }).then(()=>{
+              $('.contract-name').append(name);
+              $('.contract-question').append(question);
+            });
+          });
+        });
+      }
+    }, 1);
   },
 
   answerHunt: function(e) {

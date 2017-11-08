@@ -148,3 +148,11 @@ ol li a{
 	pointer-events: none;
 	background-color: grey;
 }
+
+.contract-name{
+	font-family: Helvetica,sans-serif;
+}
+
+.contract-question{
+	font-family: Helvetica,sans-serif;
+}
