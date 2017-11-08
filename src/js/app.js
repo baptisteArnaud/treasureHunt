@@ -43,7 +43,8 @@ App = {
 
   bindEvents: function() {
     $(document).on('click', '.btn-deploy', App.addHunt);
-    $(document).on('click', App.getHunts);
+    $(document).on('click', '.btn-answer', App.answerHunt);
+    $('.load-button').on('click', App.getHunts);
   },
 
   addHunt: function(e) {
@@ -64,31 +65,68 @@ App = {
     });
   },
 
-  getHunts: function(nb_hunts, hunt) {
+  getHunts: function() {
 
     if(window.location.pathname == "/hunts.html"){
 
       var HuntsFactoryInstance;
+      var addresses;
+      var contracts;
+      var names;
+      var status;
       App.contracts.HuntsFactory.deployed().then(function(instance) {
         HuntsFactoryInstance = instance;
-        return HuntsFactoryInstance.getHuntsLength.call();
-      }).then(function(nb_hunts){
-        for(i=0; i<nb_hunts; i++){
-          App.contracts.HuntsFactory.deployed().then(function(instance) {
-
-            HuntsFactoryInstance = instance;
-            return HuntsFactoryInstance.getHunt(i);
-
-          }).then(function(hunt){
-            alert(hunt);
-          })
-        }
-      })
-
-      
-
+        return HuntsFactoryInstance.getHuntsLength.call().then(nb_hunts => {
+          var instanceIndexes = Array();
+          for(i=0; i<nb_hunts; i++){
+            instanceIndexes.push(i);
+          }
+          var instancesPromises = instanceIndexes.map(index => HuntsFactoryInstance.getHunt(index));
+          return Promise.all(instancesPromises).then(addresses_ => {
+            addresses = addresses_;
+            var contractsPromises = addresses.map(address => App.contracts.Hunt.at(address));
+            return Promise.all(contractsPromises).then(contracts_ => {
+              contracts = contracts_;
+              var namesPromises = contracts.map(contracts => contracts.name.call());
+              return Promise.all(namesPromises).then(names_ => {
+                names = names_;
+                var statusPromises = contracts.map(contracts => contracts.isAnswered.call());
+                return Promise.all(statusPromises).then(status_ => {
+                  status = status_;
+                }).then(()=>{
+                  for(i=0; i<nb_hunts; i++){
+                    if(status[i] == false){
+                      status[i] = "Open"
+                      $(".hunts-list").append('<li><div><a href="answer.html?add=' + addresses[i] + '">' + names[i] + '</a><p>Status: ' + status[i] + '</p></div></li>');
+                    }else{
+                      status[i] = "Close"
+                      $(".hunts-list").append('<li><div><a href="#" class="disabled">' + names[i] + '</a><p>Status: ' + status[i] + '</p></div></li>');
+                    }
+                  }
+                  $('.load-button').hide();
+                });
+              });
+            });
+          });
+        });
+      });
     }
-  }
+  },
+
+  answerHunt: function(e) {
+    e.preventDefault();
+    var address = getUrlParameter('add');
+    var answer = $("#answer").val();
+    var contract = App.contracts.Hunt.at(address).then((contract) =>{
+      contract.answerQuestion(answer).then((response) => {
+        if(response != "WRONG"){
+          console.log('GG');
+        }else{
+          console.log('WRONNNNNNNG');
+        }
+      });
+    });
+  },
 
 };
 
@@ -97,3 +135,18 @@ $(function() {
     App.init();
   });
 });
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};

@@ -111,6 +111,10 @@ button{
 	width: 100%;
 }
 
+ol{
+	list-style-type: none;
+}
+
 ol li div{
 	display: flex;
 	align-items: center;
@@ -132,4 +136,15 @@ ol li a{
 	padding-left: 10px;
 	padding-right: 10px;
 
+}
+
+.load-button{
+	margin: auto;
+	cursor:pointer;
+}
+
+.disabled{
+	cursor: default;
+	pointer-events: none;
+	background-color: grey;
 }
