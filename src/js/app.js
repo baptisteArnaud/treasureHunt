@@ -57,11 +57,12 @@ App = {
     var enigma = $("#enigma").val();
     var answer = $("#answer").val();
     var location = $("#location").val();
+    var nb_winners = $("#nb_winners").val();
 
     App.contracts.HuntsFactory.deployed().then(function(instance) {
       HuntsFactoryInstance = instance;
 
-      return HuntsFactoryInstance.AddHunt(name, enigma, answer, location);
+      return HuntsFactoryInstance.AddHunt(name, enigma, answer, location, nb_winners);
     }).then(function() {
       window.location.replace("index.html");
     });
@@ -93,7 +94,7 @@ App = {
                 var namesPromises = contracts.map(contracts => contracts.name.call());
                 return Promise.all(namesPromises).then(names_ => {
                   names = names_;
-                  var statusPromises = contracts.map(contracts => contracts.isAnswered.call());
+                  var statusPromises = contracts.map(contracts => contracts.closed.call());
                   return Promise.all(statusPromises).then(status_ => {
                     status = status_;
                   }).then(()=>{
@@ -146,14 +147,15 @@ App = {
     var response;
     var contract = App.contracts.Hunt.at(address).then((contract) =>{
       contract.answerQuestion.call(answer).then((response_) => {
-        response = response_
-        if(response != "WRONG"){
-          contract.answerQuestion(answer).then(() => {
-            window.location.replace("winner.html?location=" + response);
-          });
-        }else{
-          window.location.replace("looser.html");
-        }
+        response = response_;
+        console.log(response);
+        // if(response != "WRONG"){
+        //   contract.answerQuestion(answer).then(() => {
+        //     window.location.replace("winner.html?location=" + response);
+        //   });
+        // }else{
+        //   window.location.replace("looser.html");
+        // }
       });
     });
   },

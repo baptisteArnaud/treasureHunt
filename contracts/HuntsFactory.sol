@@ -8,8 +8,8 @@ contract HuntsFactory {
         nb_hunts = 0;
     }
     
-    function AddHunt(string _host, string _question, string _answer, string _pos){
-        hunts.push(new Hunt(_host, _question, _answer, _pos));
+    function AddHunt(string _name, string _question, string _answer, string _pos, uint _winners_allowed){
+        hunts.push(new Hunt(_name, _question, _answer, _pos, _winners_allowed));
         nb_hunts = nb_hunts + 1;
     }
     

@@ -2,36 +2,39 @@ pragma solidity ^0.4.4;
 
 contract Hunt{
     
-    address public winner;
+    address[] winners;
+    uint public winners_allowed;
+    uint public nb_winners;
     string public name;
     string public question;
     string answer;
-    bool public isAnswered;
+    bool public closed;
     string pos;
     
-    function Hunt(string _name, string _question, string _answer, string _pos){
+    function Hunt(string _name, string _question, string _answer, string _pos, uint winners_allowed_){
         name = _name;
         question = _question;
         answer = _answer;
         pos = _pos;
-        isAnswered = false;
+        winners_allowed = winners_allowed_;
+        closed = false;
+        nb_winners = 0;
     }
     
-    modifier notAnswered(){
-        require(isAnswered == false);
+    modifier notClosed(){
+        require(!closed);
         _;
     }
     
-    function answerQuestion(string _answer) notAnswered returns (string){
+    function answerQuestion(string _answer) notClosed returns (string){
         if(keccak256(_answer) == keccak256(answer)){
-            isAnswered = true;
-            winner = msg.sender;
-            return pos;
+            winners.push(msg.sender);
+            nb_winners = nb_winners + 1;
+            if(nb_winners == winners_allowed){
+                closed = true;
+            }
+            return "WHAT??";
         }
-        return "WRONG";
-    }
-
-    function getName() returns (string){
-        return name;
+        return "WHAT??";
     }
 }
