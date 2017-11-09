@@ -62,6 +62,8 @@ App = {
       return HuntsFactoryInstance.AddHunt(name, enigma, answer, location, nb_winners);
     }).then(function() {
       window.location.replace("index.html");
+    }).catch(function(err) {
+      console.log(err.message);
     });
   },
 
@@ -103,11 +105,23 @@ App = {
                         $(".hunts-list").append('<li><div><a href="#" class="disabled">' + names[i] + '</a><p>Status: ' + status[i] + '</p></div></li>');
                       }
                     }
+                  }).catch(function(err) {
+                    console.log(err.message);
                   });
+                }).catch(function(err) {
+                  console.log(err.message);
                 });
+              }).catch(function(err) {
+                console.log(err.message);
               });
+            }).catch(function(err) {
+              console.log(err.message);
             });
+          }).catch(function(err) {
+            console.log(err.message);
           });
+        }).catch(function(err) {
+          console.log(err.message);
         });
       }
     } , 1);
@@ -128,8 +142,14 @@ App = {
             }).then(()=>{
               $('.contract-name').append(name);
               $('.contract-question').append(question);
+            }).catch(function(err) {
+              console.log(err.message);
             });
+          }).catch(function(err) {
+            console.log(err.message);
           });
+        }).catch(function(err) {
+          console.log(err.message);
         });
       }
     }, 1);
@@ -146,11 +166,17 @@ App = {
         if(response != "WRONG"){
           contract.answerQuestion(answer).then(() => {
             window.location.replace("winner.html?location=" + response);
+          }).catch(function(err) {
+            console.log(err.message);
           });
         }else{
           window.location.replace("looser.html");
         }
-      });
+      }).catch(function(err) {
+      console.log(err.message);
+    });
+    }).catch(function(err) {
+      console.log(err.message);
     });
   },
 
