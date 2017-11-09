@@ -51,17 +51,14 @@ App = {
 
   addHunt: function(e) {
     e.preventDefault();
-
     var HuntsFactoryInstance;
     var name = $("#name").val();
     var enigma = $("#enigma").val();
     var answer = $("#answer").val();
     var location = $("#location").val();
     var nb_winners = $("#nb_winners").val();
-
     App.contracts.HuntsFactory.deployed().then(function(instance) {
       HuntsFactoryInstance = instance;
-
       return HuntsFactoryInstance.AddHunt(name, enigma, answer, location, nb_winners);
     }).then(function() {
       window.location.replace("index.html");
@@ -69,7 +66,6 @@ App = {
   },
 
   getHunts: function() {
-
     //ridiculous timemout of 1ms to make sure contracts are initialized.
     setTimeout(function(){
       if(window.location.pathname == "/hunts.html"){
@@ -80,7 +76,7 @@ App = {
         var status;
         App.contracts.HuntsFactory.deployed().then(function(instance) {
           HuntsFactoryInstance = instance;
-          return HuntsFactoryInstance.getHuntsLength.call().then(nb_hunts => {
+          return HuntsFactoryInstance.nb_hunts.call().then(nb_hunts => {
             var instanceIndexes = Array();
             for(i=0; i<nb_hunts; i++){
               instanceIndexes.push(i);
@@ -115,7 +111,6 @@ App = {
         });
       }
     } , 1);
-    
   },
 
   loadAnswer: function(){
@@ -143,19 +138,18 @@ App = {
   answerHunt: function(e) {
     e.preventDefault();
     var address = getUrlParameter('add');
-    var answer = $("#answer").val();
+    var answer = web3.sha3($("#answer").val());
     var response;
     var contract = App.contracts.Hunt.at(address).then((contract) =>{
       contract.answerQuestion.call(answer).then((response_) => {
         response = response_;
-        console.log(response);
-        // if(response != "WRONG"){
-        //   contract.answerQuestion(answer).then(() => {
-        //     window.location.replace("winner.html?location=" + response);
-        //   });
-        // }else{
-        //   window.location.replace("looser.html");
-        // }
+        if(response != "WRONG"){
+          contract.answerQuestion(answer).then(() => {
+            window.location.replace("winner.html?location=" + response);
+          });
+        }else{
+          window.location.replace("looser.html");
+        }
       });
     });
   },

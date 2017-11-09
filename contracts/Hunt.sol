@@ -26,15 +26,15 @@ contract Hunt{
         _;
     }
     
-    function answerQuestion(string _answer) notClosed returns (string){
-        if(keccak256(_answer) == keccak256(answer)){
+    function answerQuestion(bytes32 _answer) notClosed returns (string){
+        if(_answer == keccak256(answer)){
             winners.push(msg.sender);
             nb_winners = nb_winners + 1;
             if(nb_winners == winners_allowed){
                 closed = true;
             }
-            return "WHAT??";
+            return pos;
         }
-        return "WHAT??";
+        return "WRONG";
     }
 }

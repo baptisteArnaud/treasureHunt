@@ -1,4 +1,6 @@
 pragma solidity ^0.4.2;
+
+
 import "./Hunt.sol";
 contract HuntsFactory {
     Hunt[] hunts;
@@ -15,9 +17,5 @@ contract HuntsFactory {
     
     function getHunt(uint _index) constant returns(address){
         return hunts[_index];
-    }
-
-    function getHuntsLength() returns(uint){
-        return nb_hunts;
-    }    
+    }  
 }
